@@ -1,0 +1,652 @@
+/* --- Variables & Reset --- */
+:root {
+    --text-light: #ffffff;
+    --text-gray: #d0d0d0;
+    /* Updated to Luxury Purple/Violet Theme to match your background */
+    --accent-1: #9d4edd; 
+    --accent-2: #e0aaff;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none; 
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #05020a; /* Darker tinted black for purple theme */
+    color: var(--text-light);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+/* --- Pure CSS Motion Background (Purple Orbs) --- */
+.css-motion-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    background-color: #05020a; 
+    overflow: hidden;
+}
+
+.bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px); 
+    opacity: 0.5;
+    animation: drift 20s infinite alternate ease-in-out;
+}
+
+/* Deep purples matching your image */
+.orb-1 { width: 50vw; height: 50vw; background: #3c096c; top: -10%; left: -10%; }
+.orb-2 { width: 40vw; height: 40vw; background: #7b2cbf; bottom: -20%; right: -10%; animation-delay: -5s; animation-duration: 25s; }
+.orb-3 { width: 30vw; height: 30vw; background: #5a189a; top: 30%; left: 30%; animation-delay: -10s; animation-duration: 30s; }
+
+@keyframes drift {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(50px, -50px) scale(1.1); }
+    66% { transform: translate(-30px, 40px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+}
+
+/* --- Custom Cursor --- */
+.cursor {
+    width: 8px;
+    height: 8px;
+    background: var(--text-light);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 100001; /* Add this line */
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.cursor-follower {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(157, 78, 221, 0.5); /* updated to match your accent purple */
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 100001; /* Add this line */
+    transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+}
+
+/* --- Glassmorphism --- */
+.glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Navbar --- */
+.navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; padding: 15px 30px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+.logo { font-family: var(--font-heading); font-weight: 800; font-size: 1.2rem; }
+.nav-links { list-style: none; display: flex; gap: 30px; }
+.nav-links a { color: var(--text-light); text-decoration: none; font-size: 1rem; font-weight: 500; transition: color 0.3s ease; }
+.nav-links a:hover { color: var(--accent-2); }
+.nav-btn { padding: 10px 25px; background: linear-gradient(45deg, var(--accent-1), var(--accent-2)); color: #fff; border-radius: 30px; text-decoration: none; font-family: var(--font-heading); font-weight: 800; font-size: 0.9rem; transition: transform 0.3s ease; }
+.nav-btn:hover { transform: scale(1.05); }
+
+/* --- Hero Section (Split Layout) --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px; /* Offset for navbar */
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    width: 100%;
+}
+
+.hero-text {
+    flex: 1;
+    text-align: left;
+}
+
+.hero-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* Typography */
+.title {
+    font-family: var(--font-heading);
+    font-size: 5.5rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.gradient-text {
+    background: linear-gradient(45deg, var(--accent-2), var(--accent-1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.luxury-tagline {
+    font-size: 1.6rem;
+    font-family: var(--font-heading);
+    color: var(--text-light);
+    border-left: 4px solid var(--accent-1);
+    padding-left: 20px;
+    margin-bottom: 20px;
+    font-style: italic;
+    font-weight: 300;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 15px 35px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 30px;
+    text-transform: uppercase;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.btn:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: var(--accent-1);
+}
+
+/* --- Floating Mobile Mockup --- */
+.mobile-frame {
+    width: 300px;
+    height: 600px;
+    border: 14px solid #1a1a2e; /* Dark frame */
+    border-radius: 45px;
+    background: #000;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(157, 78, 221, 0.4), inset 0 0 10px rgba(255,255,255,0.1);
+    animation: floatMobile 6s ease-in-out infinite;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+/* iPhone style top notch */
+.mobile-notch {
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 25px;
+    background: #1a1a2e;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    z-index: 10;
+}
+
+.mobile-screen {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #10002b 0%, #3c096c 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    overflow: hidden; /* Crucial: clips the image to the screen */
+}
+
+/* STYLING YOUR PROFILE PICTURE */
+/* STYLING YOUR PROFILE PICTURE */
+.profile-pic {
+    width: 230px; 
+    height: 230px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 4px solid var(--accent-1); 
+    box-shadow: 0 10px 20px rgba(157, 78, 221, 0.5); 
+    margin-bottom: 25px; 
+    transition: transform 0.3s ease; 
+    cursor: pointer; /* Shows a pointing finger when hovering */
+}
+
+/* Make it grow slightly when hovered */
+.profile-pic:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 15px 30px rgba(157, 78, 221, 0.8);
+}
+
+/* --- Full Screen Image Modal Styles --- */
+.modal {
+    display: none; /* Keeps it hidden until clicked */
+    position: fixed;
+    z-index: 9990; 
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5, 2, 10, 0.95); 
+    backdrop-filter: blur(15px); 
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 20px;
+    border: 2px solid var(--accent-1);
+    box-shadow: 0 0 50px rgba(157, 78, 221, 0.4);
+    object-fit: contain;
+    animation: zoomIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.2s ease; /* Makes the mouse scroll zoom smooth */
+}
+
+.close-modal {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    color: var(--text-gray);
+    font-size: 50px;
+    font-weight: 300;
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: var(--accent-1);
+    transform: scale(1.2) rotate(90deg);
+}
+
+.play-button-pulse {
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--accent-2);
+    box-shadow: 0 0 0 0 rgba(157, 78, 221, 0.7);
+    animation: pulse 2s infinite;
+}
+
+@keyframes floatMobile {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(157, 78, 221, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0); }
+}
+
+/* --- Marquee --- */
+.marquee-container { width: 100%; color: var(--text-light); padding: 20px 0; overflow: hidden; white-space: nowrap; position: relative; transform: rotate(-2deg) scale(1.05); margin: 60px 0; border-top: 1px solid rgba(157,78,221,0.2); border-bottom: 1px solid rgba(157,78,221,0.2); }
+.marquee { display: inline-block; font-family: var(--font-heading); font-weight: 800; font-size: 1.2rem; animation: scroll 22s linear infinite; }
+.marquee span { padding-right: 60px; color: var(--accent-2); }
+@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* --- Sections & Grid --- */
+.section { padding: 100px 20px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.section-title { font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 50px; text-align: center; }
+.modern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    justify-content: center; /* Centers your items elegantly if there are fewer than 3 */
+}
+
+/* --- Project Cards --- */
+.card { border-radius: 20px; padding: 20px; transition: transform 0.4s ease, border-color 0.4s ease; }
+.card:hover { transform: translateY(-10px); border-color: var(--accent-1); }
+.card-image { width: 100%; height: 250px; background: rgba(0,0,0,0.6); border-radius: 15px; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+.glass-play { width: 70px; height: 70px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; color: var(--accent-2); transition: all 0.3s ease; }
+.card:hover .glass-play { transform: scale(1.15); background: var(--accent-1); color: #fff; }
+.card-content { margin-top: 20px; }
+.card-content h3 { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 5px; }
+.card-content p { color: var(--text-gray); font-size: 1rem; }
+/* --- View More Button --- */
+.view-more-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.btn-text {
+    color: var(--text-light);
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s ease;
+}
+
+.btn-text .arrow {
+    transition: transform 0.3s ease;
+}
+
+/* Make the arrow slide to the right when hovered */
+.btn-text:hover {
+    color: var(--accent-1);
+}
+
+.btn-text:hover .arrow {
+    transform: translateX(8px);
+}
+
+/* --- Services Grid Layout --- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+/* --- Service Cards --- */
+.service-card {
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: left;
+    border-top: 4px solid transparent; /* Hidden border for hover effect */
+    transition: transform 0.4s ease, border-top-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    border-top-color: var(--accent-1); /* Purple border appears on top */
+    box-shadow: 0 15px 30px rgba(157, 78, 221, 0.2);
+}
+
+.service-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--accent-2); /* Light violet text for titles */
+}
+
+.service-card p {
+    color: var(--text-gray);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* --- Thumbnail Images (16:9 Ratio for YouTube) --- */
+.thumbnail-image {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Forces a perfect YouTube thumbnail shape */
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden; /* Keeps the zoom effect inside the box */
+}
+
+/* Make actual images fill the box properly */
+.thumbnail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+/* Subtle zoom-in effect when hovering over the thumbnail */
+.card:hover .thumbnail-image img {
+    transform: scale(1.08); 
+}
+
+/* Text for the placeholders (you can delete this later) */
+.preview-text {
+    color: var(--accent-1);
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 600;
+    opacity: 0.5;
+}
+
+/* --- Contact Form --- */
+.modern-form { max-width: 700px; margin: 0 auto; padding: 40px; border-radius: 20px; display: flex; flex-direction: column; gap: 30px; }
+.input-group { display: flex; gap: 20px; }
+.modern-form input, .modern-form textarea { width: 100%; background: transparent; border: none; border-bottom: 2px solid rgba(255,255,255,0.1); padding: 15px 0; color: var(--text-light); font-family: var(--font-body); font-size: 1rem; outline: none; transition: border-color 0.3s ease; }
+.modern-form input:focus, .modern-form textarea:focus { border-bottom-color: var(--accent-1); }
+.submit-btn { padding: 15px; background: var(--text-light); color: #000; font-family: var(--font-heading); font-weight: 800; font-size: 1.1rem; border: none; border-radius: 10px; transition: all 0.3s ease; }
+.submit-btn:hover { background: var(--accent-1); color: #fff; transform: scale(1.02); }
+
+/* --- Footer --- */
+footer { text-align: center; padding: 40px; color: var(--text-gray); font-size: 1rem; }
+
+/* --- Animations --- */
+.reveal { opacity: 0; transform: translateY(30px) scale(0.95); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+.reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Mobile Adjustments */
+@media (max-width: 900px) {
+    .hero-container { flex-direction: column; text-align: center; justify-content: center; padding-top: 40px;}
+    .hero-text { text-align: center; margin-bottom: 40px; }
+    .title { font-size: 4rem; }
+    .luxury-tagline { border-left: none; border-bottom: 3px solid var(--accent-1); padding-bottom: 10px; padding-left: 0; display: inline-block; }
+}
+@media (max-width: 768px) {
+    .input-group { flex-direction: column; }
+    .cursor, .cursor-follower { display: none; }
+    * { cursor: auto; }
+}
+/* --- THEME BUTTON & LIGHT MODE --- */
+.theme-btn {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2); font-size: 1.2rem;
+    padding: 8px; border-radius: 50%; color: white; cursor: pointer; transition: all 0.3s ease; margin-right: 15px;
+}
+.theme-btn:hover { transform: scale(1.1); border-color: var(--accent-1); }
+
+body.light-theme { background-color: #f4f0fa; color: #1a0033; }
+body.light-theme .glass { background: rgba(0, 0, 0, 0.03); border: 1px solid rgba(0, 0, 0, 0.05); color: #1a0033; }
+body.light-theme .title, body.light-theme .luxury-tagline, body.light-theme .nav-links a { color: #1a0033; }
+body.light-theme .css-motion-bg { background-color: #f4f0fa; }
+body.light-theme .orb { opacity: 0.2; }
+
+/* --- SECRET ADMIN UI --- */
+.admin-modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5,2,10,0.95); z-index: 10000; justify-content: center; align-items: center;
+}
+.admin-modal-content { padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 100%; }
+.admin-modal-content input, .hidden-admin-panel input, .hidden-admin-panel select {
+    width: 100%; padding: 12px; margin: 10px 0; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-1); color: white; border-radius: 8px;
+}
+.hidden-admin-panel {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05020a; z-index: 10001; padding: 50px; overflow-y: auto;
+}
+.admin-dashboard-wrapper { max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 20px; }
+/* Bring back the normal cursor for the login and admin panels */
+/* Bring back the normal cursor for ALL admin screens and popups */
+#secret-login-modal *, #secret-admin-panel *, #admin-add-modal *, #admin-add-modal input {
+    cursor: auto !important;
+}
+/* --- VISUAL ADMIN DASHBOARD STYLES --- */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+}
+
+.admin-card {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Makes it a perfect square */
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+/* Background image for admin cards */
+.admin-card-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}
+
+.admin-card:hover .admin-card-bg { opacity: 0.7; }
+
+/* Text inside the card */
+.admin-card-text {
+    position: relative;
+    z-index: 1;
+}
+
+.admin-card-text h4 { font-size: 1rem; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-card-text span { font-size: 0.7rem; color: var(--accent-2); font-weight: bold; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; }
+
+/* The Add Button Card */
+.admin-add-card {
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+}
+.admin-add-card:hover {
+    background: rgba(157, 78, 221, 0.1);
+    border-color: var(--accent-1);
+    color: white;
+}
+
+/* The Delete Button */
+.admin-delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 68, 68, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s, background 0.2s;
+}
+.admin-delete-btn:hover {
+    background: #ff0000;
+    transform: scale(1.2);
+}
+
+/* --- ROUND CONTACT BUTTONS SYSTEM --- */
+/* --- ROUND CONTACT BUTTONS SYSTEM --- */
+.round-contact-btn {
+    position: relative;
+    /* Increased from 55px to 68px for a bigger, bolder look */
+    width: 68px; 
+    height: 68px; 
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Make the internal SVGs slightly bigger inside the larger buttons */
+.round-contact-btn svg {
+    width: 28px !important;
+    height: 28px !important;
+    transition: transform 0.3s ease;
+}
+
+/* Hover effects matching your glowing orbs */
+.round-contact-btn:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.round-contact-btn:hover svg {
+    transform: scale(1.1); /* Subtle icon pop effect on hover */
+}
+
+.whatsapp-btn:hover {
+    color: #25D366 !important;         
+    border-color: #25D366 !important;   
+    background: rgba(37, 211, 102, 0.05); 
+    box-shadow: 0 0 20px rgba(37, 211, 102, 0.4); 
+}
+
+.email-btn:hover {
+    color: #00f2fe; 
+    border-color: #00f2fe;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+}
+
+.phone-btn:hover {
+    color: #9d4edd; 
+    border-color: #9d4edd;
+    box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+}
