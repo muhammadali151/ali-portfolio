@@ -1,3 +1,88 @@
+const portfolioItems = [
+
+{
+section:"short",
+title:"Short 1",
+subtitle:"",
+url:"https://youtube.com/shorts/PACw2gbx2HU?feature=share",
+orderNum:1
+},
+
+{
+section:"short",
+title:"Short 2",
+subtitle:"",
+url:"https://youtube.com/shorts/XnhS3voLncQ?feature=share",
+orderNum:2
+},
+
+{
+section:"short",
+title:"Short 3",
+subtitle:"",
+url:"https://youtube.com/shorts/F2yge-ccCOg?feature=share",
+orderNum:3
+},
+
+{
+section:"long",
+title:"Long 1",
+subtitle:"",
+url:"https://youtu.be/Gw9y4TT5Y-w",
+orderNum:1
+},
+
+{
+section:"long",
+title:"Long 2",
+subtitle:"",
+url:"https://youtu.be/eICJNeKtuTM",
+orderNum:2
+},
+
+{
+section:"long",
+title:"Long 3",
+subtitle:"",
+url:"https://youtu.be/FjC6p8rQqQ4",
+orderNum:3
+},
+
+{
+section:"long",
+title:"Long 4",
+subtitle:"",
+url:"https://youtu.be/BEIJgcfX9DM",
+orderNum:4
+},
+
+{
+section:"thumb",
+title:"Thumbnail 1",
+subtitle:"",
+url:"https://github.com/muhammadali151/my-portfolio-images/blob/main/images/ChatGPT%20Image%20May%2013,%202026,%2011_50_26%20AM.png?raw=true",
+orderNum:1
+},
+
+{
+section:"thumb",
+title:"Thumbnail 2",
+subtitle:"",
+url:"https://github.com/muhammadali151/my-portfolio-images/blob/main/images/ChatGPT%20Image%20May%2013,%202026,%2012_26_08%20PM.png?raw=true",
+orderNum:2
+},
+
+{
+    section:"thumb",
+    title:"Thumbnail 3",
+    subtitle:"",
+    url:"https://github.com/muhammadali151/my-portfolio-images/blob/main/images/Russia%20facts.png?raw=true",
+    orderNum:3
+}
+
+
+];
+
 // 1. Custom Cursor Logic
 const cursor = document.querySelector('.cursor');
 const follower = document.querySelector('.cursor-follower');
@@ -173,292 +258,143 @@ videoModal.addEventListener('click', function(e) {
 });
 
 
-// =========================================================================
-// 1. FIREBASE CONFIGURATION
-// =========================================================================
-const firebaseConfig = {
-    apiKey: "AIzaSyCTWq_qaW2GVU0dX6YGvdqf8YfpHPigNOE",
-    authDomain: "aliportfolio-8dcd0.firebaseapp.com",
-    projectId: "aliportfolio-8dcd0",
-    storageBucket: "aliportfolio-8dcd0.firebasestorage.app",
-    messagingSenderId: "583921466541",
-    appId: "1:583921466541:web:7427a2533d2df8c7cb5a24"
-};
+// Keep all portfolio items available for "View All"
 
-// Initialize Firebase globally to prevent crashes
-if (!window.firebase.apps.length) {
-    window.firebase.initializeApp(firebaseConfig);
-}
-const db = window.firebase.firestore();
-const auth = window.firebase.auth(); // Securely connects the Auth engine
 
-// =========================================================================
-// 2. THEME SWITCHER & 10-SECOND SECRET DOOR
-// =========================================================================
-const themeBtn = document.getElementById('theme-toggle-btn');
-const loginModal = document.getElementById('secret-login-modal');
-const adminPanel = document.getElementById('secret-admin-panel');
-let holdTimer;
-let holdActive = false;
-
-if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
-        if (!holdActive) document.body.classList.toggle('light-theme');
-    });
-
-    const startHold = () => {
-        holdActive = false;
-        holdTimer = setTimeout(() => {
-            holdActive = true;
-            if(loginModal) loginModal.style.display = 'flex';
-        }, 10000); 
-    };
-
-    const endHold = () => clearTimeout(holdTimer);
-
-    themeBtn.addEventListener('mousedown', startHold);
-    themeBtn.addEventListener('mouseup', endHold);
-    themeBtn.addEventListener('mouseleave', endHold);
-    themeBtn.addEventListener('touchstart', startHold);
-    themeBtn.addEventListener('touchend', endHold);
-}
-
-// --- SECURE LOGIN LOGIC ---
-const loginSubmitBtn = document.getElementById('login-submit-btn');
-
-if (loginSubmitBtn) {
-    loginSubmitBtn.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevents the page from refreshing
-
-        const email = document.getElementById('admin-email').value.trim();
-        const pass = document.getElementById('admin-password').value;
-        const errorMsg = document.getElementById('login-error'); 
-console.log("Attempting login with Email: [" + email + "] and Password: [" + pass + "]");
-        if (email === "" || pass === "") {
-            alert("Please enter both your email and password.");
-            return;
-        }
-
-        // Change button text so you know it's working
-        loginSubmitBtn.innerText = "Checking...";
-
-        auth.signInWithEmailAndPassword(email, pass)
-            .then((userCredential) => {
-                loginSubmitBtn.innerText = "Login"; // Reset button text
-                alert("Welcome Admin!");
-                
-                if (adminPanel) adminPanel.style.display = 'block';
-                if (loginModal) loginModal.style.display = 'none';
-                if (errorMsg) errorMsg.style.display = 'none';
-                
-                document.getElementById('admin-password').value = ""; // Clear password
-            })
-            .catch((error) => {
-                loginSubmitBtn.innerText = "Login"; // Reset button text
-                if (errorMsg) {
-                    errorMsg.style.display = 'block';
-                    errorMsg.innerText = "Incorrect email or password.";
-                } else {
-                    alert("Login Failed: " + error.message);
-                }
-            });
-    });
-}
-
-// --- Admin Panel Close Logic ---
-const closeAdminBtn = document.getElementById('close-admin-btn');
-if (closeAdminBtn && adminPanel) {
-    closeAdminBtn.addEventListener('click', () => {
-        adminPanel.style.display = 'none';
-    });
-}
-
-// =========================================================================
-// 3. DIGITAL DASHBOARD LOGIC (Add, Render, Delete)
-// =========================================================================
-const addModal = document.getElementById('admin-add-modal');
-
-window.openAddModal = (sectionName) => {
-    document.getElementById('new-section').value = sectionName;
-    if(addModal) addModal.style.display = 'flex';
-};
-
-window.closeAddModal = () => {
-    if(addModal) addModal.style.display = 'none';
-    document.getElementById('new-title').value = '';
-    document.getElementById('new-sub').value = '';
-    document.getElementById('new-url').value = '';
-    document.getElementById('new-order').value = '';
-};
-
-const saveNewItemBtn = document.getElementById('save-new-item-btn');
-if (saveNewItemBtn) {
-    saveNewItemBtn.addEventListener('click', async () => {
-        const title = document.getElementById('new-title').value;
-        const subtitle = document.getElementById('new-sub').value;
-        const url = document.getElementById('new-url').value;
-        const orderNum = parseInt(document.getElementById('new-order').value) || 99;
-        const section = document.getElementById('new-section').value;
-
-        if(!title || !url) { alert("Please enter a Title and URL"); return; }
-
-        try {
-            await db.collection("portfolio_items").add({
-                title: title,
-                subtitle: subtitle,
-                url: url,
-                section: section,
-                orderNum: orderNum
-            });
-            closeAddModal();
-        } catch (error) {
-            console.error("Error saving:", error);
-            alert("Failed to save. Check console.");
-        }
-    });
-}
-
-window.deleteItem = async (docId) => {
-    if (confirm("Are you sure you want to delete this from your website?")) {
-        try {
-            await db.collection("portfolio_items").doc(docId).delete();
-        } catch (error) {
-            console.error("Error deleting:", error);
-        }
-    }
-};
-
-// =========================================================================
-// 4. THE LIVE RENDERING ENGINE (Draws Public Site & Intercepts Clicks)
-// =========================================================================
 function fetchAndRenderEverything() {
-    const shortGrid = document.getElementById('firebase-short-form');
-    const longGrid = document.getElementById('firebase-long-form');
-    const thumbGrid = document.getElementById('firebase-thumbnails');
 
-    const adminShort = document.getElementById('admin-grid-short');
-    const adminLong = document.getElementById('admin-grid-long');
-    const adminThumb = document.getElementById('admin-grid-thumb');
+    const shortGrid = document.getElementById("firebase-short-form");
+    const longGrid = document.getElementById("firebase-long-form");
+    const thumbGrid = document.getElementById("firebase-thumbnails");
 
-    if (!shortGrid) return;
+    if (!shortGrid || !longGrid || !thumbGrid) return;
 
-    db.collection("portfolio_items").orderBy("orderNum", "asc").onSnapshot((snapshot) => {
-        shortGrid.innerHTML = ''; longGrid.innerHTML = ''; thumbGrid.innerHTML = '';cachedPortfolioItems = [];
-        
-        if(adminShort) adminShort.innerHTML = `<div class="admin-card admin-add-card" onclick="openAddModal('short')"><span style="font-size: 3rem;">+</span><p style="font-size: 0.9rem; margin-top: 10px;">Add Video</p></div>`;
-        if(adminLong) adminLong.innerHTML = `<div class="admin-card admin-add-card" onclick="openAddModal('long')"><span style="font-size: 3rem;">+</span><p style="font-size: 0.9rem; margin-top: 10px;">Add Edit</p></div>`;
-        if(adminThumb) adminThumb.innerHTML = `<div class="admin-card admin-add-card" onclick="openAddModal('thumb')"><span style="font-size: 3rem;">+</span><p style="font-size: 0.9rem; margin-top: 10px;">Add Thumbnail</p></div>`;
+    shortGrid.innerHTML = "";
+    longGrid.innerHTML = "";
+    thumbGrid.innerHTML = "";
 
-        let shortCount = 0;
-        let longCount = 0;
-        let thumbCount = 0;
+    
 
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            const docId = doc.id; 
-            cachedPortfolioItems.push(data);
+    let shortCount = 0;
+    let longCount = 0;
+    let thumbCount = 0;
+
+    portfolioItems
+        .sort((a, b) => a.orderNum - b.orderNum)
+        .forEach(data => {
 
             let finalImgUrl = data.url;
+            let videoId = "";
             let isYouTube = false;
-            let videoId = '';
 
-            if (data.url.includes('youtube.com') || data.url.includes('youtu.be')) {
-    isYouTube = true;
-    if (data.url.includes('shorts/')) {
-        // Handles YouTube Shorts URL strings gracefully
-        videoId = data.url.split('shorts/')[1].split('?')[0].split('&')[0];
-    } else if (data.url.includes('v=')) {
-        videoId = data.url.split('v=')[1].split('&')[0];
-    } else if (data.url.includes('youtu.be/')) {
-        videoId = data.url.split('youtu.be/')[1].split('?')[0];
-    } else if (data.url.includes('embed/')) {
-        videoId = data.url.split('embed/')[1].split('?')[0];
-    }
-    finalImgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-}
+            if (data.url.includes("youtube.com") || data.url.includes("youtu.be")) {
 
-            // Draw Admin Cards
-            const adminCardHTML = `
-                <div class="admin-card">
-                    <img src="${finalImgUrl}" class="admin-card-bg" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e'">
-                    <button class="admin-delete-btn" onclick="deleteItem('${docId}')">×</button>
-                    <div class="admin-card-text">
-                        <span>#${data.orderNum}</span>
-                        <h4>${data.title}</h4>
-                    </div>
+                isYouTube = true;
+
+                if (data.url.includes("shorts/")) {
+                    videoId = data.url.split("shorts/")[1].split("?")[0];
+                }
+                else if (data.url.includes("v=")) {
+                    videoId = data.url.split("v=")[1].split("&")[0];
+                }
+                else if (data.url.includes("youtu.be/")) {
+                    videoId = data.url.split("youtu.be/")[1].split("?")[0];
+                }
+
+                finalImgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            }
+
+            // ---------- THUMBNAILS ----------
+            if (data.section === "thumb") {
+
+                thumbCount++;
+
+                if (thumbCount <= 6) {
+
+                    thumbGrid.innerHTML += `
+                    <div class="card glass reveal active"
+                        onclick="document.getElementById('imageModal').style.display='block';
+                                 document.getElementById('fullScreenImg').src='${finalImgUrl}';">
+
+                        <div class="thumbnail-image">
+                            <img src="${finalImgUrl}" alt="${data.title}">
+                        </div>
+
+                        <div class="card-content">
+                            <h3>${data.title}</h3>
+                            <p>${data.subtitle}</p>
+                        </div>
+
+                    </div>`;
+                }
+
+                return;
+            }
+
+            // ---------- SHORT/LONG VIDEOS ----------
+
+            const card = `
+            <div class="card glass reveal active">
+
+                <div style="${
+                    data.section === "short"
+    ? "aspect-ratio:9/16;width:100%; max-height:500px; "
+    : "width:100%; aspect-ratio:16/9; max-height:320px;"
+    
+                } overflow:hidden;border-radius:15px;position:relative;">
+
+                    ${
+                        isYouTube
+                        ?
+                        `
+                        <iframe
+                            src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0"
+                            frameborder="0"
+                            allowfullscreen
+                            style="width:100%;height:100%;pointer-events:none;">
+                        </iframe>
+
+                        <div
+                            onclick="openVideoFullscreen('${videoId}')"
+                            style="position:absolute;inset:0;cursor:pointer;">
+                        </div>
+                        `
+                        :
+                        `
+                        <img src="${finalImgUrl}"
+                             style="width:100%;height:100%;object-fit:cover;">
+                        `
+                    }
+
                 </div>
-            `;
-            if (data.section === 'short' && adminShort) adminShort.insertAdjacentHTML('afterbegin', adminCardHTML);
-            if (data.section === 'long' && adminLong) adminLong.insertAdjacentHTML('afterbegin', adminCardHTML);
-            if (data.section === 'thumb' && adminThumb) adminThumb.insertAdjacentHTML('afterbegin', adminCardHTML);
 
-            // Draw Public Cards
-            if (data.section === 'thumb') {
-    thumbCount++;
-    if (thumbCount <= 3) {
-        // Added style="cursor: pointer;" and an onclick event pointing to your image zoom modal
-        thumbGrid.innerHTML += `
-            <div class="card glass reveal active" onclick="document.getElementById('imageModal').style.display='block'; document.getElementById('fullScreenImg').src='${finalImgUrl}'; document.getElementById('fullScreenImg').style.transform='scale(1)';" style="opacity:1; transform:translateY(0); cursor: pointer;">
-                <div class="thumbnail-image" style="width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:15px;">
-                    <img src="${finalImgUrl}" alt="${data.title}" style="width:100%; height:100%; object-fit:cover;">
-                </div>
                 <div class="card-content">
                     <h3>${data.title}</h3>
                     <p>${data.subtitle}</p>
                 </div>
+
             </div>`;
-    }
-} else {
-                let visualContentHTML = '';
-                let cursorStyle = '';
 
-                if (isYouTube) {
-                    cursorStyle = 'cursor: pointer;';
-                    // We wrap the iframe and place a transparent invisible click-catcher overlay div on top of it.
-                    // This lets us detect clicks anywhere on the card, opening it into full screen seamlessly!
-                    visualContentHTML = `
-                        <div style="position:relative; width:100%; height:100%;">
-                            <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&mute=1&controls=0&modestbranding=1" title="${data.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width:100%; height:100%; border-radius:15px; pointer-events: none;"></iframe>
-                            <div onclick="openVideoFullscreen('${videoId}')" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:10;"></div>
-                        </div>`;
-                } else {
-                    visualContentHTML = `
-                        <div class="card-image" style="background-image: url('${finalImgUrl}'); background-size: cover; background-position: center; width:100%; height:100%;">
-                            <div class="glass-play">▶</div>
-                        </div>`;
-                }
+            if (data.section === "short") {
 
-                // Sets a beautiful maximum height constraints so they don't grow too massive on big monitors
-let cardBoxStyle = (data.section === 'short') 
-    ? 'aspect-ratio: 9/16; max-height: 400px; width: auto; margin: 0 auto;' 
-    : 'width: 100%; height: 250px;';
+                shortCount++;
 
-const cardHTML = `
-    <div class="card glass reveal active" style="opacity:1; transform:translateY(0); ${cursorStyle} display: flex; flex-direction: column;">
-        <div style="${cardBoxStyle} background: rgba(0,0,0,0.6); border-radius: 15px; overflow:hidden;">
-            ${visualContentHTML}
-        </div>
-        <div class="card-content" style="width: 100%; max-width: 225px; margin: 0 auto; text-align: center;">
-            <h3>${data.title}</h3>
-            <p>${data.subtitle}</p>
-        </div>
-    </div>`;
-
-                if (data.section === 'short') {
-                    shortCount++;
-                    if (shortCount <= 3) shortGrid.innerHTML += cardHTML;
-                }
-                if (data.section === 'long') {
-                    longCount++;
-                    if (longCount <= 3) longGrid.innerHTML += cardHTML;
-                }
-            }
-        });
-    });
+if (shortCount <= 4) {
+    shortGrid.innerHTML += card;
 }
 
-// Global Arrays to keep track of complete background items
-let cachedPortfolioItems = [];
+            } else {
+
+                longCount++;
+
+if (longCount <= 3) {
+    longGrid.innerHTML += card;
+}
+            }
+
+        });
+
+}
 
 window.openAllVideosPanel = function(sectionType, titleText) {
     const panel = document.getElementById('allVideosPanel');
@@ -472,7 +408,7 @@ window.openAllVideosPanel = function(sectionType, titleText) {
     panelGrid.innerHTML = ''; // Clear layout panel grid
     
     // Filter out only the matching section elements from our live sync database array
-    const filtered = cachedPortfolioItems.filter(item => item.section === sectionType);
+   const filtered = portfolioItems.filter(item => item.section === sectionType);
     
     if(filtered.length === 0) {
         panelGrid.innerHTML = `<p style="color:var(--text-gray); grid-column: 1/-1; text-align:center;">No items found in this category.</p>`;
@@ -496,6 +432,11 @@ window.openAllVideosPanel = function(sectionType, titleText) {
             }
             finalImgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
         }
+
+        function openImageLightbox(img){
+    document.getElementById("fullScreenImg").src = img;
+    document.getElementById("imageModal").style.display = "block";
+}
 
         let visualContentHTML = '';
         let panelCardHeightStyle = '';
@@ -596,8 +537,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// THIS LINE MUST ALWAYS REMAIN THE ABSOLUTE LAST THING IN YOUR FILE
-fetchAndRenderEverything();
 
 // --- PHONE NUMBER AUTOMATED CLIPBOARD COPIER ---
 window.copyPhoneNumber = function(buttonElement) {
@@ -626,3 +565,6 @@ window.copyPhoneNumber = function(buttonElement) {
 
 // Initialize rendering instantly
 fetchAndRenderEverything();
+
+// Auto-update copyright year
+document.getElementById("copyrightYear").textContent = new Date().getFullYear();
