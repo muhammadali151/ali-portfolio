@@ -563,6 +563,33 @@ window.copyPhoneNumber = function(buttonElement) {
     });
 };
 
+const menuToggle=document.getElementById("menuToggle");
+const navLinks=document.getElementById("navLinks");
+
+menuToggle.onclick=function(){
+
+    navLinks.classList.toggle("active");
+
+    menuToggle.innerHTML=
+    navLinks.classList.contains("active")
+    ?"✕":"☰";
+
+}
+
+document.querySelectorAll(".nav-links a").forEach(link=>{
+
+    link.onclick=function(){
+
+        navLinks.classList.remove("active");
+
+        menuToggle.innerHTML="☰";
+
+    }
+
+});
+
+
+
 // Initialize rendering instantly
 fetchAndRenderEverything();
 
