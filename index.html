@@ -6,6 +6,7 @@
     <title>Ali Graphics | Luxury Video Editing</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
 
@@ -152,9 +153,27 @@
 
     </section>
 
+<section class="graphics-cta reveal">
+    <div class="container">
+        <div class="graphics-card glass">
+            <h2>Need Stunning Graphic Designs?</h2>
+            <p>
+                Explore my Graphic Design portfolio featuring professional
+                thumbnails, social media posts, banners, logos, and branding projects.
+            </p>
+
+            <a href="https://ali-graphics-graphic-designer.vercel.app"
+               target="_blank"
+               class="graphics-btn">
+                🎨 Visit My Graphics Design Portfolio
+            </a>
+        </div>
+    </div>
+</section>
+
     <footer>
-        <p>&copy; 2026 Muhammad Ali | Ali Graphics. All Rights Reserved.</p>
-    </footer>
+    <p>&copy; <span id="copyrightYear"></span> | Ali Graphics. All Rights Reserved.</p>
+</footer>
 
     <div id="imageModal" class="modal">
         <span class="close-modal">&times;</span>
@@ -162,90 +181,9 @@
     </div>
 
     
-    <div id="secret-login-modal" class="admin-modal">
-        <div class="admin-modal-content glass" style="max-width: 350px; text-align: left; padding: 30px;">
-            <h2 style="margin-bottom: 5px; font-weight: 500; font-family: var(--font-body);">Sign in</h2>
-            <p style="color: var(--text-gray); margin-bottom: 20px; font-size: 0.9rem;">to continue to Ali Graphics</p>
-            
-            <input type="email" id="admin-email" placeholder="Email or phone" style="background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.2);">
-            <input type="password" id="admin-password" placeholder="Enter your password" style="background: rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.2);">
-            
-            <button id="login-submit-btn" style="background: #1a73e8; color: white; width: 100%; padding: 10px; border-radius: 5px; border: none; margin-top: 15px; font-weight: 500;">Next</button>
-            
-            <p id="login-error" style="color: #ff4444; display: none; margin-top: 15px; font-size: 0.9rem; text-align: center;">Wrong email or password.</p>
-        </div>
-    </div>
+   
 
-    <div id="secret-admin-panel" class="hidden-admin-panel" style="display: none;">
-        <div class="admin-dashboard-wrapper glass" style="max-width: 1000px; padding: 40px;">
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">
-                <h2 style="font-family: var(--font-heading); font-size: 2rem;">Digital Control Panel</h2>
-                <button id="close-admin-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 8px; cursor: pointer;">Close Dashboard</button>
-            </div>
-
-            <div class="admin-category">
-                <h3 style="margin-bottom: 15px; color: var(--accent-2);">Selected Works (Short Form)</h3>
-                <div class="admin-grid" id="admin-grid-short">
-                    <div class="admin-card admin-add-card" onclick="openAddModal('short')">
-                        <span style="font-size: 3rem;">+</span>
-                        <p style="font-size: 0.9rem; margin-top: 10px;">Add Video</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="admin-category">
-                <h3 style="margin-bottom: 15px; color: var(--accent-2); margin-top: 40px;">Long Form Edits</h3>
-                <div class="admin-grid" id="admin-grid-long">
-                    <div class="admin-card admin-add-card" onclick="openAddModal('long')">
-                        <span style="font-size: 3rem;">+</span>
-                        <p style="font-size: 0.9rem; margin-top: 10px;">Add Edit</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="admin-category">
-                <h3 style="margin-bottom: 15px; color: var(--accent-2); margin-top: 40px;">Custom Thumbnails</h3>
-                <div class="admin-grid" id="admin-grid-thumb">
-                    <div class="admin-card admin-add-card" onclick="openAddModal('thumb')">
-                        <span style="font-size: 3rem;">+</span>
-                        <p style="font-size: 0.9rem; margin-top: 10px;">Add Thumbnail</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="admin-add-modal" class="admin-modal" style="display: none; z-index: 10005;">
-        <div class="admin-modal-content glass" style="max-width: 400px; text-align: left;">
-            <h3 style="margin-bottom: 20px; font-family: var(--font-heading);">Add New Item</h3>
-            
-            <label style="font-size: 0.8rem; color: var(--text-gray);">Title</label>
-            <input type="text" id="new-title" placeholder="e.g. Cyberpunk Edit">
-            
-            <label style="font-size: 0.8rem; color: var(--text-gray);">Subtitle</label>
-            <input type="text" id="new-sub" placeholder="e.g. Motion Graphics">
-            
-            <label style="font-size: 0.8rem; color: var(--text-gray);">Video/Image URL</label>
-            <input type="text" id="new-url" placeholder="Paste link here...">
-            
-            <label style="font-size: 0.8rem; color: var(--text-gray);">Placement Number (1 goes first)</label>
-            <input type="number" id="new-order" placeholder="e.g. 1, 2, 3...">
-            
-            <input type="hidden" id="new-section">
-            
-            <div style="display: flex; gap: 15px; margin-top: 25px;">
-                <button onclick="closeAddModal()" style="flex: 1; background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); padding: 12px; border-radius: 8px; cursor: pointer;">Cancel</button>
-                <button id="save-new-item-btn" style="flex: 1; background: var(--accent-1); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold;">Save Live</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+   
     
     <script src="script.js"></script>
 
@@ -263,6 +201,8 @@
             </div>
     </div>
 </div>
+
+
 
 </body>
 </html>
