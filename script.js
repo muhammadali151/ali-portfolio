@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else if (data.url.includes("youtu.be/")) {
                         videoId = data.url.split("youtu.be/")[1].split("?")[0];
                     }
-                    finalImgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                    finalImgUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
                 }
 
                 // ---------- THUMBNAILS ----------
@@ -394,12 +394,10 @@ if (data.section === "thumb") {
                     <div class="card glass reveal active">
                         <div style="${isShort ? "aspect-ratio:9/16; width:auto; max-width:280px; max-height:500px; margin:0 auto;" : "width:100%; aspect-ratio:16/9; max-height:320px;"} overflow:hidden;border-radius:15px;position:relative; background:#000;">
                             ${isYouTube ? `
-                                <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0" 
-                                    frameborder="0" 
-                                    allowfullscreen 
-                                    style="width:100%;height:100%;pointer-events:none; object-fit:cover;">
-                                </iframe>
-                                <div onclick="event.stopPropagation(); openVideoFullscreen('${videoId}')" style="position:absolute;inset:0;cursor:pointer;"></div>
+                                <img src="${finalImgUrl}" alt="${data.title}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                                <div class="grid-play-overlay" onclick="event.stopPropagation(); openVideoFullscreen('${videoId}')">
+                                    <span class="grid-play-icon">▶</span>
+                                </div>
                             ` : `
                                 <img src="${finalImgUrl}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                             `}
@@ -458,7 +456,7 @@ window.openAllVideosPanel = function(sectionType, titleText) {
             } else if (data.url.includes('embed/')) {
                 videoId = data.url.split('embed/')[1].split('?')[0];
             }
-            finalImgUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            finalImgUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
         }
 
         let visualContentHTML = '';
@@ -467,9 +465,11 @@ window.openAllVideosPanel = function(sectionType, titleText) {
         if (sectionType === 'short') {
             panelCardHeightStyle = 'aspect-ratio: 9/16; max-height: 600px; width: auto; max-width: 280px; margin: 0 auto;';
             visualContentHTML = `
-                <div style="position:relative; width:100%; height:100%;">
-                    <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&mute=1&controls=0&modestbranding=1" frameborder="0" allowfullscreen style="width:100%; height:100%; border-radius:15px; pointer-events:none;"></iframe>
-                    <div onclick="event.stopPropagation(); openVideoFullscreen('${videoId}')" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:10;"></div>
+                <div style="position:relative; width:100%; height:100%; border-radius:15px; overflow:hidden;">
+                    <img src="${finalImgUrl}" alt="${data.title}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+                    <div class="grid-play-overlay" onclick="event.stopPropagation(); openVideoFullscreen('${videoId}')">
+                        <span class="grid-play-icon">▶</span>
+                    </div>
                 </div>`;
         } else if (sectionType === 'thumb') {
     panelCardHeightStyle = 'width: 100%; height: 180px; overflow:hidden; border-radius:15px;';
@@ -483,8 +483,10 @@ window.openAllVideosPanel = function(sectionType, titleText) {
             if (isYouTube) {
                 visualContentHTML = `
                     <div style="position:relative; width:100%; height:100%;">
-                        <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&mute=1&controls=0&modestbranding=1" frameborder="0" allowfullscreen style="width:100%; height:100%; pointer-events:none;"></iframe>
-                        <div onclick="event.stopPropagation(); openVideoFullscreen('${videoId}')" style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:10;"></div>
+                        <img src="${finalImgUrl}" alt="${data.title}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="grid-play-overlay" onclick="event.stopPropagation(); openVideoFullscreen('${videoId}')">
+                            <span class="grid-play-icon">▶</span>
+                        </div>
                     </div>`;
             } else {
                 visualContentHTML = `
